@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: order-service:0.1.1
+          image: order-service:0.2.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8082
@@ -25,6 +25,23 @@ spec:
               value: "kafka.default.svc.cluster.local:9092"
             - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_KAFKA
               value: "DEBUG"
+            # Configuration base de données
+            - name: DB_HOST
+              value: "postgres"
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NAME
+              value: "orderdb"
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
           readinessProbe:
             httpGet:
               path: /actuator/health
@@ -37,6 +54,13 @@ spec:
               port: 8082
             initialDelaySeconds: 30
             periodSeconds: 20
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
 ---
 apiVersion: v1
 kind: Service

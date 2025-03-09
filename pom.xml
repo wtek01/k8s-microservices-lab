@@ -5,10 +5,10 @@
 
 	<groupId>com.training.k8s</groupId>
 	<artifactId>microservices-parent</artifactId>
-	<version>0.1.0</version>
+	<version>0.2.0</version>
 	<packaging>pom</packaging>
 	<name>microservices-parent</name>
-	<description>Parent POM for microservices with Kafka and Kubernetes</description>
+	<description>Parent POM for microservices with Kafka, PostgreSQL and Kubernetes</description>
 
 	<modules>
 		<module>user-service</module>
@@ -54,6 +54,22 @@
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka</artifactId>
 		</dependency>
+
+		<!-- Database dependencies -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -68,6 +84,15 @@
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.persistence</groupId>
+			<artifactId>jakarta.persistence-api</artifactId>
+			<version>3.1.0</version>
 		</dependency>
 	</dependencies>
 

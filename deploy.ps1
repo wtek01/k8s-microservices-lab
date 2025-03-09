@@ -26,6 +26,10 @@ minikube image load $ServiceName`:$Version
 Write-Host "[3/5] Mise à jour du déploiement Kubernetes..." -ForegroundColor Green
 kubectl set image deployment/$ServiceName $ServiceName=$ServiceName`:$Version
 
+# Étape 3b: Forcer le redémarrage du déploiement pour utiliser la nouvelle image
+Write-Host "[3b/5] Forcer le redémarrage du déploiement..." -ForegroundColor Green
+kubectl rollout restart deployment/$ServiceName
+
 # Étape 4: Vérification du déploiement
 Write-Host "[4/5] Vérification du déploiement..." -ForegroundColor Green
 kubectl rollout status deployment/$ServiceName
