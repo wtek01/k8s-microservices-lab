@@ -1,0 +1,13 @@
+server:
+  port: 8092  # au lieu de 8082
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/orderdb
+    username: postgres
+    password: postgres
+  kafka:
+    bootstrap-servers: localhost:29092
+    producer:
+      properties:
+        spring.json.add.type.headers: false

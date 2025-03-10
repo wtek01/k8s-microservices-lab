@@ -27,6 +27,28 @@ Chaque profil a sa propre configuration dans les fichiers suivants :
 - `application-docker.yml` : Configuration spécifique à l'environnement Docker
 - `application-local.yml` : Configuration spécifique à l'environnement local
 
+### Pourquoi utiliser différentes adresses pour Kafka
+
+Une question fréquente est : "Pourquoi utiliser `localhost:29092` en local et `kafka:9092` dans Docker alors que Kafka s'exécute toujours dans Docker ?"
+
+Voici l'explication :
+
+1. **Réseaux séparés** : Docker crée un réseau isolé où les conteneurs communiquent entre eux en utilisant leurs noms. À l'intérieur de ce réseau, un conteneur peut accéder à Kafka via le nom `kafka` sur le port 9092.
+
+2. **Communication depuis l'extérieur** : Votre machine hôte (où vous exécutez IntelliJ) n'est pas dans ce réseau Docker et ne peut pas résoudre le nom `kafka`. Ce nom n'existe pas dans son système DNS.
+
+3. **Mapping de ports** : Pour permettre l'accès depuis l'extérieur, Docker "expose" des ports en les mappant à des ports de la machine hôte. La configuration `ports: - "29092:9092"` signifie que le port 9092 du conteneur Kafka est accessible via le port 29092 de l'hôte.
+
+4. **Listeners Kafka** : Kafka doit savoir comment il est accessible pour indiquer aux clients comment se connecter. C'est pourquoi on configure deux listeners :
+   - `INTERNAL://kafka:9092` (pour les communications entre conteneurs Docker)
+   - `EXTERNAL://localhost:29092` (pour les communications depuis l'extérieur)
+
+Si vous tentiez d'utiliser `kafka:9092` depuis votre machine locale, cela échouerait car votre machine ne peut pas résoudre le nom "kafka". C'est comme essayer d'accéder à un site web avec un nom de domaine qui n'existe pas dans le DNS public.
+
+C'est pour cette raison qu'on utilise deux configurations différentes :
+- `kafka:9092` dans le profil Docker (à l'intérieur du réseau Docker)
+- `localhost:29092` dans le profil Local (depuis votre machine)
+
 ### Configuration Docker
 
 Le fichier `application-docker.yml` contient :
@@ -119,18 +141,18 @@ Pour exécuter les services en local tout en utilisant Kafka et PostgreSQL dans 
    ```
 
 2. **Configurez les Run Configurations dans IntelliJ** :
-    - Ajoutez l'option VM : `-Dspring.profiles.active=local`
-    - Pour user-service, utilisez la classe principale : `com.training.k8s.UserServiceApplication`
-    - Pour order-service, utilisez la classe principale : `com.training.k8s.OrderServiceApplication`
+   - Ajoutez l'option VM : `-Dspring.profiles.active=local`
+   - Pour user-service, utilisez la classe principale : `com.training.k8s.UserServiceApplication`
+   - Pour order-service, utilisez la classe principale : `com.training.k8s.OrderServiceApplication`
 
 3. **Exécutez les services** :
-    - Démarrez `UserServiceApplication` dans IntelliJ
-    - Démarrez `OrderServiceApplication` dans IntelliJ
+   - Démarrez `UserServiceApplication` dans IntelliJ
+   - Démarrez `OrderServiceApplication` dans IntelliJ
 
 4. **Testez l'application** avec Postman ou curl :
-    - Créez un utilisateur : `POST http://localhost:8091/users`
-    - Créez une commande : `POST http://localhost:8092/orders`
-    - Vérifiez que la commande est associée à l'utilisateur : `GET http://localhost:8091/users/{userId}`
+   - Créez un utilisateur : `POST http://localhost:8091/users`
+   - Créez une commande : `POST http://localhost:8092/orders`
+   - Vérifiez que la commande est associée à l'utilisateur : `GET http://localhost:8091/users/{userId}`
 
 ### Exécution complète dans Docker
 
@@ -147,9 +169,9 @@ Pour exécuter tous les composants dans Docker :
    ```
 
 3. **Testez l'application** avec Postman ou curl :
-    - Créez un utilisateur : `POST http://localhost:8081/users`
-    - Créez une commande : `POST http://localhost:8082/orders`
-    - Vérifiez que la commande est associée à l'utilisateur : `GET http://localhost:8081/users/{userId}`
+   - Créez un utilisateur : `POST http://localhost:8081/users`
+   - Créez une commande : `POST http://localhost:8082/orders`
+   - Vérifiez que la commande est associée à l'utilisateur : `GET http://localhost:8081/users/{userId}`
 
 ## Mode hybride pour le débogage
 
@@ -190,8 +212,8 @@ Si vous recevez une erreur indiquant qu'un port est déjà utilisé, assurez-vou
 
 1. Les services Docker n'utilisent pas les mêmes ports que les services locaux
 2. Les fichiers de configuration `application-local.yml` utilisent des ports différents :
-    - user-service : port 8091 au lieu de 8081
-    - order-service : port 8092 au lieu de 8082
+   - user-service : port 8091 au lieu de 8081
+   - order-service : port 8092 au lieu de 8082
 
 ## Conclusion
 
