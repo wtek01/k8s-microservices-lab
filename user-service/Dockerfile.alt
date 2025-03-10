@@ -1,33 +1,50 @@
-# user-service/Dockerfile
+# Étape de construction
 FROM eclipse-temurin:17-jdk-alpine as build
 WORKDIR /workspace/app
 
-# Copier le pom.xml et les fichiers sources
-COPY mvnw .
-COPY .mvn .mvn
+# Copier les fichiers Maven et les dépendances
 COPY pom.xml .
-COPY src src
+COPY user-service/pom.xml ./user-service/
+COPY order-service/pom.xml ./order-service/
 
-# Construire le JAR
-RUN ./mvnw install -DskipTests
-RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+# Copier le code source
+COPY user-service/src ./user-service/src/
 
-# Construction de l'image finale
+# Construire l'application
+RUN apk add --no-cache maven && \
+    mvn clean package -DskipTests -pl user-service
+
+# Étape de déploiement
 FROM eclipse-temurin:17-jre-alpine
 VOLUME /tmp
 
-# Création d'un utilisateur non-root pour exécuter l'application
+# Copier l'application compilée
+COPY --from=build /workspace/app/user-service/target/*.jar /app/app.jar
+
+# Créer le script wait-for-it AVANT de changer d'utilisateur
+RUN echo '#!/bin/sh\n\
+set -e\n\
+\n\
+host="$1"\n\
+port="$2"\n\
+shift 2\n\
+cmd="$@"\n\
+\n\
+until nc -z "$host" "$port" || [ "$WAIT_TIMEOUT" = "0" ]; do\n\
+  >&2 echo "Service on $host:$port is unavailable - sleeping"\n\
+  sleep 1\n\
+done\n\
+\n\
+>&2 echo "Service on $host:$port is up - executing command"\n\
+exec $cmd' > /wait-for-it.sh && \
+chmod +x /wait-for-it.sh
+
+# Installer netcat pour le script wait-for-it
+RUN apk add --no-cache netcat-openbsd
+
+# Créer un utilisateur non-root APRÈS avoir créé le script
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 USER appuser
 
-# Copier l'application décompressée
-ARG DEPENDENCY=/workspace/app/target/dependency
-COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
-COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
-COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
-
-# Ajouter le wait-for-it script pour attendre que la base de données soit prête
-COPY wait-for-it.sh /wait-for-it.sh
-RUN chmod +x /wait-for-it.sh
-
-ENTRYPOINT ["java", "-cp", "app:app/lib/*", "com.training.k8s.UserServiceApplication"]
+# Exécuter l'application
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

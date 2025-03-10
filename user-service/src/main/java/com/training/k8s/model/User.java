@@ -1,11 +1,6 @@
 package com.training.k8s.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,6 +26,7 @@ public class User {
     private String email;
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "users_order_ids", joinColumns = @JoinColumn(name = "user_id"))
     @Builder.Default
     private Set<String> orderIds = new HashSet<>();
 }

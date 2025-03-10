@@ -22,7 +22,7 @@ spec:
             - containerPort: 8081
           env:
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
-              value: "kafka.default.svc.cluster.local:9092"
+              todo: "kafka.default.svc.cluster.local:9092"
             - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_KAFKA
               value: "DEBUG"
             # Configuration base de données

@@ -1,20 +1,50 @@
-FROM eclipse-temurin:17-jdk-alpine AS build
+# Étape de construction
+FROM eclipse-temurin:17-jdk-alpine as build
 WORKDIR /workspace/app
 
-# Copiez le POM parent et les POM des services
-COPY pom.xml ./
+# Copier les fichiers Maven et les dépendances
+COPY pom.xml .
 COPY user-service/pom.xml ./user-service/
 COPY order-service/pom.xml ./order-service/
 
-# Copiez le code source du service de commande
+# Copier le code source
 COPY order-service/src ./order-service/src/
 
-# Installez Maven et construisez uniquement le service de commande
+# Construire l'application
 RUN apk add --no-cache maven && \
     mvn clean package -DskipTests -pl order-service
 
-# Image finale
+# Étape de déploiement
 FROM eclipse-temurin:17-jre-alpine
-WORKDIR /app
-COPY --from=build /workspace/app/order-service/target/*.jar app.jar
+VOLUME /tmp
+
+# Copier l'application compilée
+COPY --from=build /workspace/app/order-service/target/*.jar /app/app.jar
+
+# Créer le script wait-for-it AVANT de changer d'utilisateur
+RUN echo '#!/bin/sh\n\
+set -e\n\
+\n\
+host="$1"\n\
+port="$2"\n\
+shift 2\n\
+cmd="$@"\n\
+\n\
+until nc -z "$host" "$port" || [ "$WAIT_TIMEOUT" = "0" ]; do\n\
+  >&2 echo "Service on $host:$port is unavailable - sleeping"\n\
+  sleep 1\n\
+done\n\
+\n\
+>&2 echo "Service on $host:$port is up - executing command"\n\
+exec $cmd' > /wait-for-it.sh && \
+chmod +x /wait-for-it.sh
+
+# Installer netcat pour le script wait-for-it
+RUN apk add --no-cache netcat-openbsd
+
+# Créer un utilisateur non-root APRÈS avoir créé le script
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+
+# Exécuter l'application
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

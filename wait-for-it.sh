@@ -1,3 +1,4 @@
+# À placer dans C:\Dev\k8s-microservices-lab\wait-for-it.sh
 #!/bin/sh
 # wait-for-it.sh
 
