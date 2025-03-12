@@ -1,0 +1,40 @@
+# .github/workflows/kubernetes-deploy-workflow.yml
+name: Deploy to Kubernetes
+
+on:
+  push:
+    branches: [ k8s-manifests ]
+  workflow_dispatch:  # Pour déclencher manuellement le workflow
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up kubeconfig
+        uses: azure/k8s-set-context@v2
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+          # OU utiliser ces champs pour se connecter à un cluster EKS/AKS/GKE
+          # method: service-account
+          # k8s-url: ${{ secrets.K8S_URL }}
+          # k8s-secret: ${{ secrets.K8S_SECRET }}
+
+      - name: Apply Kubernetes manifests
+        run: |
+          echo "Applying Kubernetes configurations..."
+          kubectl apply -f k8s/kafka-statefulset.yml
+          kubectl apply -f k8s/postgres-deployment.yml
+          kubectl apply -f k8s/user-service.yml
+          kubectl apply -f k8s/order-service.yml
+          # Ou utilisez kustomize
+          # kubectl apply -k k8s/
+
+      - name: Verify deployment
+        run: |
+          echo "Verifying deployments..."
+          kubectl rollout status deployment/user-service
+          kubectl rollout status deployment/order-service
+          echo "All deployments successfully rolled out!"

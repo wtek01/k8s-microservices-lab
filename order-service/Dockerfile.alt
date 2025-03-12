@@ -2,17 +2,18 @@
 FROM eclipse-temurin:17-jdk-alpine as build
 WORKDIR /workspace/app
 
-# Copier les fichiers Maven et les dépendances
+# Copier le pom parent et ses dépendances
 COPY pom.xml .
-COPY user-service/pom.xml ./user-service/
+COPY mvnw .
+COPY .mvn .mvn
+
+# Copier le module order-service
 COPY order-service/pom.xml ./order-service/
+RUN ./mvnw dependency:go-offline -B -pl order-service
 
-# Copier le code source
+# Copier le code source et construire
 COPY order-service/src ./order-service/src/
-
-# Construire l'application
-RUN apk add --no-cache maven && \
-    mvn clean package -DskipTests -pl order-service
+RUN ./mvnw package -DskipTests -pl order-service
 
 # Étape de déploiement
 FROM eclipse-temurin:17-jre-alpine
@@ -21,7 +22,7 @@ VOLUME /tmp
 # Copier l'application compilée
 COPY --from=build /workspace/app/order-service/target/*.jar /app/app.jar
 
-# Créer le script wait-for-it AVANT de changer d'utilisateur
+# Script wait-for-it pour attendre les dépendances
 RUN echo '#!/bin/sh\n\
 set -e\n\
 \n\
@@ -42,7 +43,7 @@ chmod +x /wait-for-it.sh
 # Installer netcat pour le script wait-for-it
 RUN apk add --no-cache netcat-openbsd
 
-# Créer un utilisateur non-root APRÈS avoir créé le script
+# Créer un utilisateur non-root pour la sécurité
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 USER appuser
 

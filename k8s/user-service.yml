@@ -16,16 +16,15 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: user-service:0.2.0
-          imagePullPolicy: IfNotPresent
+          image: yourusername/user-service:0.2.0
+          imagePullPolicy: Always
           ports:
             - containerPort: 8081
           env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
-              todo: "kafka.default.svc.cluster.local:9092"
-            - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_KAFKA
-              value: "DEBUG"
-            # Configuration base de données
+              value: "kafka:9092"
             - name: DB_HOST
               value: "postgres"
             - name: DB_PORT
