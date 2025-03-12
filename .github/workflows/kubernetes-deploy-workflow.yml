@@ -1,4 +1,3 @@
-# .github/workflows/kubernetes-deploy-workflow.yml
 name: Deploy to Kubernetes
 
 on:
