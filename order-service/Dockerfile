@@ -8,8 +8,11 @@ COPY mvnw .
 COPY .mvn .mvn
 RUN chmod +x ./mvnw
 
-# Copier le module order-service
+# Copier tous les modules mentionnés dans le POM parent
 COPY order-service/pom.xml ./order-service/
+COPY user-service/pom.xml ./user-service/
+
+# Maintenant exécuter Maven
 RUN ./mvnw dependency:go-offline -B -pl order-service
 
 # Copier le code source et construire
