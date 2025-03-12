@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: yourusername/order-service:0.2.0
+          image: wtek01/order-service:0.2.0
           imagePullPolicy: Always
           ports:
             - containerPort: 8082

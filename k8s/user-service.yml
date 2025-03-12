@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: yourusername/user-service:0.2.0
+          image: wtek01/user-service:0.2.0
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
