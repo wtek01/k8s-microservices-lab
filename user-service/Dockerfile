@@ -6,6 +6,7 @@ WORKDIR /workspace/app
 COPY pom.xml .
 COPY mvnw .
 COPY .mvn .mvn
+RUN chmod +x ./mvnw
 
 # Copier le module user-service
 COPY user-service/pom.xml ./user-service/
