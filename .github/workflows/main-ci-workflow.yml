@@ -136,8 +136,8 @@ jobs:
       - name: Update Kubernetes manifests
         run: |
           # Mettre à jour les manifests avec la nouvelle version d'image
-          sed -i "s|image: user-service:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/user-service:${{ steps.get-version.outputs.version }}|g" k8s/user-service.yml
-          sed -i "s|image: order-service:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/order-service:${{ steps.get-version.outputs.version }}|g" k8s/order-service.yml
+          sed -i "s|image: wtek01/user-service:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/user-service:${{ steps.get-version.outputs.version }}|g" k8s/user-service.yml
+          sed -i "s|image: wtek01/order-service:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/order-service:${{ steps.get-version.outputs.version }}|g" k8s/order-service.yml
 
       - name: Commit and push updated manifests
         uses: stefanzweifel/git-auto-commit-action@v4
