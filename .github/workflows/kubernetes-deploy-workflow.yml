@@ -1,8 +1,11 @@
+# .github/workflows/kubernetes-deploy-workflow.yml
 name: Deploy to Kubernetes
 
 on:
   push:
-    branches: [ k8s-manifests ]
+    branches: [ main, master ]
+    paths:
+      - 'k8s/**'  # Se déclenche sur les modifications des fichiers dans le dossier k8s
   workflow_dispatch:  # Pour déclencher manuellement le workflow
 
 jobs:
