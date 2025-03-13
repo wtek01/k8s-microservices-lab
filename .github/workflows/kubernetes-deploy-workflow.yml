@@ -11,6 +11,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -18,14 +20,12 @@ jobs:
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
 
-      # REMPLACEZ l'étape "Set up kubeconfig" par celle-ci
       - name: Setup kubeconfig
         run: |
           mkdir -p $HOME/.kube
           echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
           chmod 600 $HOME/.kube/config
 
-      # Étape optionnelle pour déboguer la configuration
       - name: Verify kubectl configuration
         run: |
           kubectl version --client
