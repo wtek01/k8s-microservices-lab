@@ -41,20 +41,30 @@ spec:
                 secretKeyRef:
                   name: postgres-credentials
                   key: password
+          startupProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8081
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 15
+            timeoutSeconds: 5
           readinessProbe:
             httpGet:
               path: /actuator/health
               port: 8081
             initialDelaySeconds: 180
             periodSeconds: 20
-            failureThreshold: 5
+            failureThreshold: 3
+            timeoutSeconds: 5
           livenessProbe:
             httpGet:
               path: /actuator/health
               port: 8081
             initialDelaySeconds: 300
             periodSeconds: 30
-            failureThreshold: 5
+            failureThreshold: 3
+            timeoutSeconds: 5
           resources:
             limits:
               memory: "512Mi"
