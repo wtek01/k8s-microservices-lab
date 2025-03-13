@@ -33,7 +33,7 @@ public class OrderService {
 
     @Transactional
     public Order createOrder(Order order) {
-        log.info("Creating order: {}", order);
+        log.info("Creating order test: {}", order);
 
         // Set order ID and date if not provided
         if (order.getId() == null) {

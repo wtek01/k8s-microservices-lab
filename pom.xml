@@ -5,7 +5,7 @@
 
 	<groupId>com.training.k8s</groupId>
 	<artifactId>microservices-parent</artifactId>
-	<version>0.2.0</version>
+	<version>0.3.0</version>
 	<packaging>pom</packaging>
 	<name>microservices-parent</name>
 	<description>Parent POM for microservices with Kafka, PostgreSQL and Kubernetes</description>

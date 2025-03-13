@@ -26,7 +26,10 @@ Mettre en place un projet minimaliste (MVP) de microservices en **Spring Boot** 
         - Pousser ces images vers un registre Docker.
         - Générer/mettre à jour les manifestes Kubernetes.
         - Déployer automatiquement sur votre cluster Kubernetes.
-    4. **Version 0.4** : éventuellement, ajout d’un composant de monitoring (Prometheus, Grafana) ou d’un Ingress Controller pour exposer publiquement les services.
+    4. **Version 0.4** :
+       - Ajouter un Ingress Controller pour exposer vos services à l'extérieur du cluster
+       - Mettre en place un monitoring avec Prometheus et Grafana
+       - Configurer une sécurité améliorée comme le mTLS entre services (Bonus)
 
 ---
 
