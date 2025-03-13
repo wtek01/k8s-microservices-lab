@@ -15,14 +15,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up kubeconfig
-        uses: azure/k8s-set-context@v2
-        with:
-          kubeconfig: ${{ secrets.KUBE_CONFIG }}
-          # OU utiliser ces champs pour se connecter à un cluster EKS/AKS/GKE
-          # method: service-account
-          # k8s-url: ${{ secrets.K8S_URL }}
-          # k8s-secret: ${{ secrets.K8S_SECRET }}
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+
+      # REMPLACEZ l'étape "Set up kubeconfig" par celle-ci
+      - name: Setup kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+
+      # Étape optionnelle pour déboguer la configuration
+      - name: Verify kubectl configuration
+        run: |
+          kubectl version --client
+          echo "Attempting to connect to cluster..."
+          kubectl get nodes || echo "Failed to connect to cluster"
 
       - name: Apply Kubernetes manifests
         run: |
