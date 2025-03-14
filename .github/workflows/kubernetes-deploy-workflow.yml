@@ -7,10 +7,16 @@ on:
     paths:
       - 'k8s/**'  # Se déclenche sur les modifications des fichiers dans le dossier k8s
   workflow_dispatch:  # Pour déclencher manuellement le workflow
+  workflow_run:
+    workflows: ["Build and Publish"]
+    types:
+      - completed
+    branches: [main, master]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name != 'workflow_run' }}
     permissions:
       contents: read
     steps:
@@ -41,6 +47,12 @@ jobs:
           kubectl apply -f k8s/order-service.yml
           # Ou utilisez kustomize
           # kubectl apply -k k8s/
+
+      - name: Force redeploy services
+        run: |
+          echo "Forcing redeployment to ensure new images are used..."
+          kubectl rollout restart deployment/user-service
+          kubectl rollout restart deployment/order-service
 
       - name: Verify deployment
         run: |
