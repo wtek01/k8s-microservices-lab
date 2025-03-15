@@ -122,16 +122,20 @@ jobs:
 
       - name: Extract version from pom.xml
         id: get-version
+        shell: powershell
         run: |
-          VERSION=$(grep -m1 "<version>" pom.xml | sed 's/[^0-9\.]//g')
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Using version: $VERSION"
+          $versionLine = Select-String -Path pom.xml -Pattern "<version>(.*?)</version>" | Select-Object -First 1
+          $version = $versionLine -replace ".*<version>(.*?)</version>.*", '$1'
+          $version = $version -replace "[^0-9\.]", ""
+          echo "version=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          echo "Using version: $version"
 
       - name: Update Kubernetes manifests
+        shell: powershell
         run: |
           # Mettre à jour les manifests avec la nouvelle version d'image
-          sed -i "s|image: ${{ secrets.DOCKERHUB_USERNAME }}/user-service:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/user-service:${{ steps.get-version.outputs.version }}|g" k8s/user-service.yml
-          sed -i "s|image: ${{ secrets.DOCKERHUB_USERNAME }}/order-service:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/order-service:${{ steps.get-version.outputs.version }}|g" k8s/order-service.yml
+          (Get-Content k8s/user-service.yml) -replace "image: ${{ secrets.DOCKERHUB_USERNAME }}/user-service:.*", "image: ${{ secrets.DOCKERHUB_USERNAME }}/user-service:${{ steps.get-version.outputs.version }}" | Set-Content k8s/user-service.yml
+          (Get-Content k8s/order-service.yml) -replace "image: ${{ secrets.DOCKERHUB_USERNAME }}/order-service:.*", "image: ${{ secrets.DOCKERHUB_USERNAME }}/order-service:${{ steps.get-version.outputs.version }}" | Set-Content k8s/order-service.yml
 
       - name: Commit and push updated manifests
         uses: stefanzweifel/git-auto-commit-action@v4
