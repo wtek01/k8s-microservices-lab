@@ -44,7 +44,11 @@ jobs:
         run: |
           kubectl version --client
           Write-Host "Attempting to connect to cluster..."
-          kubectl get nodes || Write-Host "Failed to connect to cluster"
+          try {
+            kubectl get nodes
+          } catch {
+            Write-Host "Failed to connect to cluster"
+          }
 
       - name: Apply Kubernetes manifests
         shell: powershell
