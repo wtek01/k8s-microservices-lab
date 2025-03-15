@@ -27,20 +27,29 @@ jobs:
         uses: azure/setup-kubectl@v3
 
       - name: Setup kubeconfig
+        shell: powershell
         run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
-          chmod 600 $HOME/.kube/config
+          if (!(Test-Path -Path "$HOME/.kube")) {
+            New-Item -Path "$HOME/.kube" -ItemType Directory
+          }
+          [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("${{ secrets.KUBE_CONFIG }}")) | Out-File -FilePath "$HOME/.kube/config" -Encoding utf8
+          # Définir les permissions appropriées
+          $acl = Get-Acl -Path "$HOME/.kube/config"
+          $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule("$env:USERNAME","FullControl","Allow")
+          $acl.SetAccessRule($accessRule)
+          $acl | Set-Acl -Path "$HOME/.kube/config"
 
       - name: Verify kubectl configuration
+        shell: powershell
         run: |
           kubectl version --client
-          echo "Attempting to connect to cluster..."
-          kubectl get nodes || echo "Failed to connect to cluster"
+          Write-Host "Attempting to connect to cluster..."
+          kubectl get nodes || Write-Host "Failed to connect to cluster"
 
       - name: Apply Kubernetes manifests
+        shell: powershell
         run: |
-          echo "Applying Kubernetes configurations..."
+          Write-Host "Applying Kubernetes configurations..."
           kubectl apply -f k8s/kafka-statefulset.yml
           kubectl apply -f k8s/postgres-deployment.yml
           kubectl apply -f k8s/user-service.yml
@@ -49,14 +58,16 @@ jobs:
           # kubectl apply -k k8s/
 
       - name: Force redeploy services
+        shell: powershell
         run: |
-          echo "Forcing redeployment to ensure new images are used..."
+          Write-Host "Forcing redeployment to ensure new images are used..."
           kubectl rollout restart deployment/user-service
           kubectl rollout restart deployment/order-service
 
       - name: Verify deployment
+        shell: powershell
         run: |
-          echo "Verifying deployments..."
+          Write-Host "Verifying deployments..."
           kubectl rollout status deployment/user-service
           kubectl rollout status deployment/order-service
-          echo "All deployments successfully rolled out!"
+          Write-Host "All deployments successfully rolled out!"
