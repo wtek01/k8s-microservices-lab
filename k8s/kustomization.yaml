@@ -6,3 +6,4 @@ resources:
   - postgres-deployment.yml
   - user-service.yml
   - order-service.yml
+  - ingress.yml

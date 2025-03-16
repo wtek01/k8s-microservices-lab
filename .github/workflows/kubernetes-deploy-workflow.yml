@@ -58,6 +58,7 @@ jobs:
           kubectl apply -f k8s/postgres-deployment.yml
           kubectl apply -f k8s/user-service.yml
           kubectl apply -f k8s/order-service.yml
+          kubectl apply -f k8s/ingress.yml
           # Ou utilisez kustomize
           # kubectl apply -k k8s/
 

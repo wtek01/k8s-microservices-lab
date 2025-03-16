@@ -17,3 +17,10 @@ kubectl describe pod kafka-0
 
 ### Vérifier que le service kafka existe bien
 kubectl get service kafka
+
+### Voir l'historique des déploiements dans votre cluster
+kubectl rollout history ingress/microservices-ingress
+
+###  vérifiez les événements récents liés à l'Ingress
+kubectl describe ingress microservices-ingress
+-  Regardez la section "Events" à la fin de la sortie
