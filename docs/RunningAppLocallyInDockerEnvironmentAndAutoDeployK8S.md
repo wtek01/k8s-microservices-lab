@@ -137,7 +137,7 @@ mvn clean install -DskipTests
 cd user-service
 mvn spring-boot:run -Dspring-boot.run.profiles=local
 ```
-
+Ou Sur Intellij on peut ajouter SPRING_PROFILES_ACTIVE=local dans Run / Edit Configuration
 #### Lancer le service Commande
 
 ```bash
