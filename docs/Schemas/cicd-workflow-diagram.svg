@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650">
+  <!-- Background and title -->
+  <rect width="1000" height="650" fill="#f8f9fa" rx="5" ry="5"/>
+  <text x="500" y="30" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle">CI/CD Workflow: From Commit to Kubernetes Deployment</text>
+
+  <!-- Developer section -->
+  <rect x="50" y="70" width="150" height="100" fill="#dff0d8" stroke="#5cb85c" stroke-width="2" rx="5" ry="5"/>
+  <text x="125" y="100" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">Developer</text>
+  <text x="125" y="130" font-family="Arial" font-size="14" text-anchor="middle">Code changes</text>
+  <text x="125" y="150" font-family="Arial" font-size="14" text-anchor="middle">Local testing</text>
+
+  <!-- Version Control section -->
+  <rect x="50" y="240" width="150" height="100" fill="#d9edf7" stroke="#5bc0de" stroke-width="2" rx="5" ry="5"/>
+  <text x="125" y="270" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">GitHub</text>
+  <text x="125" y="300" font-family="Arial" font-size="14" text-anchor="middle">Repository</text>
+  <text x="125" y="320" font-family="Arial" font-size="14" text-anchor="middle">Version Control</text>
+
+  <!-- CI/CD Trigger section -->
+  <rect x="280" y="240" width="150" height="100" fill="#d9edf7" stroke="#5bc0de" stroke-width="2" rx="5" ry="5"/>
+  <text x="355" y="270" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">GitHub Actions</text>
+  <text x="355" y="300" font-family="Arial" font-size="14" text-anchor="middle">Workflow Trigger</text>
+  <text x="355" y="320" font-family="Arial" font-size="14" text-anchor="middle">.github/workflows</text>
+
+  <!-- Self-hosted Runner section -->
+  <rect x="510" y="240" width="150" height="100" fill="#fcf8e3" stroke="#f0ad4e" stroke-width="2" rx="5" ry="5"/>
+  <text x="585" y="270" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">Self-hosted Runner</text>
+  <text x="585" y="300" font-family="Arial" font-size="14" text-anchor="middle">actions-runner</text>
+  <text x="585" y="320" font-family="Arial" font-size="14" text-anchor="middle">run.cmd</text>
+
+  <!-- Build section -->
+  <rect x="510" y="70" width="150" height="100" fill="#fcf8e3" stroke="#f0ad4e" stroke-width="2" rx="5" ry="5"/>
+  <text x="585" y="100" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">Build Process</text>
+  <text x="585" y="130" font-family="Arial" font-size="14" text-anchor="middle">Maven</text>
+  <text x="585" y="150" font-family="Arial" font-size="14" text-anchor="middle">Docker</text>
+
+  <!-- Docker Registry section -->
+  <rect x="740" y="70" width="150" height="100" fill="#d9edf7" stroke="#5bc0de" stroke-width="2" rx="5" ry="5"/>
+  <text x="815" y="100" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">Docker Registry</text>
+  <text x="815" y="130" font-family="Arial" font-size="14" text-anchor="middle">DockerHub</text>
+  <text x="815" y="150" font-family="Arial" font-size="14" text-anchor="middle">Images</text>
+
+  <!-- Kubernetes Deploy section -->
+  <rect x="740" y="240" width="150" height="100" fill="#fcf8e3" stroke="#f0ad4e" stroke-width="2" rx="5" ry="5"/>
+  <text x="815" y="270" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">K8s Deployment</text>
+  <text x="815" y="300" font-family="Arial" font-size="14" text-anchor="middle">kubectl apply</text>
+  <text x="815" y="320" font-family="Arial" font-size="14" text-anchor="middle">k8s/*.yml</text>
+
+  <!-- Kubernetes section -->
+  <rect x="510" y="410" width="380" height="180" fill="#d9edf7" stroke="#5bc0de" stroke-width="2" rx="5" ry="5"/>
+  <text x="700" y="435" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle">Minikube Cluster</text>
+  
+  <!-- Kubernetes components -->
+  <rect x="530" y="450" width="100" height="60" fill="#fff" stroke="#5bc0de" stroke-width="1" rx="3" ry="3"/>
+  <text x="580" y="475" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">Ingress</text>
+  <text x="580" y="495" font-family="Arial" font-size="10" text-anchor="middle">api.microservices.local</text>
+  
+  <rect x="650" y="450" width="100" height="60" fill="#fff" stroke="#5bc0de" stroke-width="1" rx="3" ry="3"/>
+  <text x="700" y="475" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">Services</text>
+  <text x="700" y="495" font-family="Arial" font-size="10" text-anchor="middle">user/order-service</text>
+  
+  <rect x="770" y="450" width="100" height="60" fill="#fff" stroke="#5bc0de" stroke-width="1" rx="3" ry="3"/>
+  <text x="820" y="475" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">Deployments</text>
+  <text x="820" y="495" font-family="Arial" font-size="10" text-anchor="middle">Pods, ReplicaSets</text>
+  
+  <rect x="530" y="520" width="100" height="60" fill="#fff" stroke="#5bc0de" stroke-width="1" rx="3" ry="3"/>
+  <text x="580" y="545" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">Kafka</text>
+  <text x="580" y="565" font-family="Arial" font-size="10" text-anchor="middle">StatefulSet</text>
+  
+  <rect x="650" y="520" width="100" height="60" fill="#fff" stroke="#5bc0de" stroke-width="1" rx="3" ry="3"/>
+  <text x="700" y="545" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">PostgreSQL</text>
+  <text x="700" y="565" font-family="Arial" font-size="10" text-anchor="middle">PVC, Secret</text>
+  
+  <rect x="770" y="520" width="100" height="60" fill="#fff" stroke="#5bc0de" stroke-width="1" rx="3" ry="3"/>
+  <text x="820" y="545" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">Config</text>
+  <text x="820" y="565" font-family="Arial" font-size="10" text-anchor="middle">ConfigMaps</text>
+
+  <!-- Client Access section -->
+  <rect x="50" y="410" width="150" height="100" fill="#dff0d8" stroke="#5cb85c" stroke-width="2" rx="5" ry="5"/>
+  <text x="125" y="440" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">Client Access</text>
+  <text x="125" y="470" font-family="Arial" font-size="14" text-anchor="middle">Browser/Postman</text>
+  <text x="125" y="490" font-family="Arial" font-size="14" text-anchor="middle">API Requests</text>
+
+  <!-- Connection arrows -->
+  <!-- Developer to GitHub -->
+  <path d="M125 170 L125 240" stroke="#555" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="140" y="205" font-family="Arial" font-size="12" text-anchor="left">git push</text>
+
+  <!-- GitHub to GitHub Actions -->
+  <path d="M200 290 L280 290" stroke="#555" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="220" y="280" font-family="Arial" font-size="12" text-anchor="middle">trigger</text>
+
+  <!-- GitHub Actions to Runner -->
+  <path d="M430 290 L510 290" stroke="#555" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="470" y="280" font-family="Arial" font-size="12" text-anchor="middle">execute</text>
+
+  <!-- Runner to Build -->
+  <path d="M585 240 L585 170" stroke="#555" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="600" y="205" font-family="Arial" font-size="12" text-anchor="left">build &amp; test</text>
+
+  <!-- Build to Docker Registry -->
+  <path d="M660 120 L740 120" stroke="#555" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="700" y="110" font-family="Arial" font-size="12" text-anchor="middle">push images</text>
+
+  <!-- Runner to Kubernetes Deploy -->
+  <path d="M660 290 L740 290" stroke="#555" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="700" y="280" font-family="Arial" font-size="12" text-anchor="middle">deploy</text>
+
+  <!-- Docker Registry to Kubernetes -->
+  <path d="M815 170 L815 240" stroke="#555" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="830" y="205" font-family="Arial" font-size="12" text-anchor="left">pull images</text>
+
+  <!-- Kubernetes Deploy to Minikube -->
+  <path d="M815 340 L815 410" stroke="#555" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="830" y="375" font-family="Arial" font-size="12" text-anchor="left">apply manifests</text>
+
+  <!-- Client to Minikube -->
+  <path d="M200 460 L510 460" stroke="#555" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="350" y="450" font-family="Arial" font-size="12" text-anchor="middle">http://api.microservices.local</text>
+
+  <!-- Arrowhead marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#555"/>
+    </marker>
+  </defs>
+
+  <!-- Workflow details section -->
+  <rect x="50" y="560" width="380" height="80" fill="#fff" stroke="#aaa" stroke-width="1" rx="3" ry="3"/>
+  <text x="60" y="580" font-family="Arial" font-size="14" font-weight="bold">CI/CD Workflow Components:</text>
+  <text x="60" y="600" font-family="Arial" font-size="12">1. GitHub Actions workflows: kubernetes-deploy-workflow.yml, main-ci-workflow.yml</text>
+  <text x="60" y="620" font-family="Arial" font-size="12">2. K8s Manifests: ingress.yml, user-service.yml, order-service.yml, etc.</text>
+  <text x="60" y="640" font-family="Arial" font-size="12">3. Docker images: user-service, order-service (stored on DockerHub)</text>
+</svg>

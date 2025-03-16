@@ -132,7 +132,7 @@ Pour automatiser le déploiement de l'Ingress lors des mises à jour de l'applic
 - **Possibilité d'ajouter des fonctionnalités avancées** comme le SSL/TLS, l'authentification, etc.
 - **Facilité d'extension** pour intégrer de nouveaux microservices à l'avenir
 
-## Prochaines étapes
+## Prochaines étapes (TODO)
 
 Maintenant que notre Ingress est correctement configuré, nous pourrons :
 - Ajouter la sécurité HTTPS en configurant des certificats
