@@ -24,3 +24,9 @@ kubectl rollout history ingress/microservices-ingress
 ###  vérifiez les événements récents liés à l'Ingress
 kubectl describe ingress microservices-ingress
 -  Regardez la section "Events" à la fin de la sortie
+
+### MINIKUBE
+- minikube start
+- minikube tunnel
+- minikube status
+- minikube update-context (Cette commande va corriger votre fichier kubeconfig pour qu'il pointe vers le port correct.)
