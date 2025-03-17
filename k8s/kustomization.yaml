@@ -7,3 +7,5 @@ resources:
   - user-service.yml
   - order-service.yml
   - ingress.yml
+  - monitoring-ingress.yml
+  - service-monitors.yml

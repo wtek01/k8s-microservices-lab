@@ -54,13 +54,13 @@ jobs:
         shell: powershell
         run: |
           Write-Host "Applying Kubernetes configurations..."
-          kubectl apply -f k8s/kafka-statefulset.yml
-          kubectl apply -f k8s/postgres-deployment.yml
-          kubectl apply -f k8s/user-service.yml
-          kubectl apply -f k8s/order-service.yml
-          kubectl apply -f k8s/ingress.yml
+          #kubectl apply -f k8s/kafka-statefulset.yml
+          #kubectl apply -f k8s/postgres-deployment.yml
+          #kubectl apply -f k8s/user-service.yml
+          #kubectl apply -f k8s/order-service.yml
+          #kubectl apply -f k8s/ingress.yml
           # Ou utilisez kustomize
-          # kubectl apply -k k8s/
+          kubectl apply -k k8s/
 
       - name: Force redeploy services
         shell: powershell
