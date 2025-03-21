@@ -9,7 +9,7 @@ public class UserServiceApplication {
 
 	public static void main(String[] args) {
 		log.info("========================================");
-		log.info("=====User Service Application v0.4.0======");
+		log.info("=====User Service Application v1======");
 		log.info("========================================");
 		SpringApplication.run(UserServiceApplication.class, args);
 	}
