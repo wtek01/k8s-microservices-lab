@@ -8,7 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class UserServiceApplication {
 
 	public static void main(String[] args) {
-		log.info("Service démarré avec succès 1111111111111111111!");
+		log.info("========================================");
+		log.info("=====User Service Application v0.4======");
+		log.info("========================================");
 		SpringApplication.run(UserServiceApplication.class, args);
 	}
 
