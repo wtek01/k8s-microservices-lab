@@ -45,10 +45,10 @@ spec:
             httpGet:
               path: /actuator/health
               port: 8081
-            initialDelaySeconds: 60
-            periodSeconds: 20
-            failureThreshold: 15
-            timeoutSeconds: 5
+            initialDelaySeconds: 300
+            periodSeconds: 30
+            failureThreshold: 10
+            timeoutSeconds: 20
           readinessProbe:
             httpGet:
               path: /actuator/health
