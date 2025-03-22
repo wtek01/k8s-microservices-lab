@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class OrderServiceApplication {
 	public static void main(String[] args) {
 		log.info("========================================");
-		log.info("Order Service Application v1");
+		log.info("Order Service Application v2");
 		log.info("========================================");
 		SpringApplication.run(OrderServiceApplication.class, args);
 	}
