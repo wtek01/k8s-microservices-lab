@@ -6,6 +6,9 @@ metadata:
   labels:
     release: monitoring
 spec:
+  namespaceSelector:  # Add this section
+    matchNames:
+      - default
   selector:
     matchLabels:
       app: user-service
@@ -22,6 +25,9 @@ metadata:
   labels:
     release: monitoring
 spec:
+  namespaceSelector:  # Add this section
+    matchNames:
+      - default
   selector:
     matchLabels:
       app: order-service
