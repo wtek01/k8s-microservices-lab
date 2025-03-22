@@ -26,41 +26,18 @@ jobs:
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
 
-      - name: Save original kubeconfig
+      - name: Setup kubeconfig
         shell: powershell
         run: |
           if (!(Test-Path -Path "$HOME/.kube")) {
             New-Item -Path "$HOME/.kube" -ItemType Directory
           }
-          [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("${{ secrets.KUBE_CONFIG }}")) | Out-File -FilePath "$HOME/.kube/config.original" -Encoding utf8
-
-      - name: Setup kubeconfig with proxy
-        shell: powershell
-        run: |
-          # Start kubectl proxy using the original config
-          Start-Process -FilePath "kubectl" -ArgumentList "proxy", "--port=8080", "--kubeconfig=$HOME/.kube/config.original" -NoNewWindow
-          
-          # Give proxy time to start
-          Start-Sleep -Seconds 5
-          
-          # Create a simplified kubeconfig for using the proxy
-          @"
-          apiVersion: v1
-          kind: Config
-          clusters:
-          - cluster:
-              server: http://localhost:8080
-            name: minikube
-          contexts:
-          - context:
-              cluster: minikube
-              user: minikube
-            name: minikube
-          current-context: minikube
-          users:
-          - name: minikube
-            user: {}
-          "@ | Out-File -FilePath "$HOME/.kube/config" -Encoding ascii
+          [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("${{ secrets.KUBE_CONFIG }}")) | Out-File -FilePath "$HOME/.kube/config" -Encoding utf8
+          # Définir les permissions appropriées
+          $acl = Get-Acl -Path "$HOME/.kube/config"
+          $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule("$env:USERNAME","FullControl","Allow")
+          $acl.SetAccessRule($accessRule)
+          $acl | Set-Acl -Path "$HOME/.kube/config"
 
       - name: Verify kubectl configuration
         shell: powershell
