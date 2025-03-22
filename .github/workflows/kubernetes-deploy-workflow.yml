@@ -73,6 +73,7 @@ jobs:
         shell: powershell
         run: |
           Write-Host "Verifying deployments..."
-          kubectl rollout status deployment/user-service
-          kubectl rollout status deployment/order-service
+          # Increased timeout to 10 minutes (600s) to allow Spring Boot applications to fully initialize
+          kubectl rollout status deployment/user-service --timeout=600s
+          kubectl rollout status deployment/order-service --timeout=600s
           Write-Host "All deployments successfully rolled out!"
