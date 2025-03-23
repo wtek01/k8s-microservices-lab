@@ -6,7 +6,7 @@ metadata:
   labels:
     release: monitoring
 spec:
-  namespaceSelector:  # Add this section
+  namespaceSelector:
     matchNames:
       - default
   selector:
@@ -25,7 +25,7 @@ metadata:
   labels:
     release: monitoring
 spec:
-  namespaceSelector:  # Add this section
+  namespaceSelector:
     matchNames:
       - default
   selector:
